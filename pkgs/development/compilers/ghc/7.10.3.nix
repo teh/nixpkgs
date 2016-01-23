@@ -25,6 +25,8 @@ stdenv.mkDerivation rec {
     ./dont-pass-linker-flags-via-response-files.patch   # https://github.com/NixOS/nixpkgs/issues/10752
   ];
 
+  outputs = [ "out" "lib" ];
+
   buildInputs = [ ghc perl libxml2 libxslt docbook_xsl docbook_xml_dtd_45 docbook_xml_dtd_42 hscolour ];
 
   enableParallelBuilding = true;
@@ -59,6 +61,11 @@ stdenv.mkDerivation rec {
       egrep --quiet '^#!' <(head -n 1 $i) || continue
       sed -i -e '2i export PATH="$PATH:${binutils}/bin:${coreutils}/bin"' $i
     done
+
+    # Split out library files
+    cp -r "$out/" "$lib"
+    find "$lib/" -type f | grep -v ".so$" | xargs rm
+    find "$out/" -type f | grep ".so$" | xargs rm
   '';
 
   meta = {
