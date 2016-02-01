@@ -100,6 +100,17 @@ in {
         '';
       };
 
+      plugins = mkOption {
+        default = [ ];
+        type = types.listOf types.package;
+        description = ''
+          A list of plugins to activate. This is declarative and will overwrite
+          whatever plugins have been installed manually.
+
+          Example: services.jenkins.plugins = [ pkgs.jenkins-plugins."git-latest" ];
+        '';
+      };
+
       extraOptions = mkOption {
         type = types.listOf types.str;
         default = [ ];
@@ -154,6 +165,9 @@ in {
       # Force .war (re)extraction, or else we might run stale Jenkins.
       preStart = ''
         rm -rf ${cfg.home}/war
+        rm -rf ${cfg.home}/plugins && mkdir plugins
+        rm ${cfg.home}/plugins/*hpi
+        cp -t ${cfg.home}/plugins ${concatMapStrings (x: x+"/*.hpi") cfg.plugins}
       '';
 
       script = ''
