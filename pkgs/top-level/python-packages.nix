@@ -2282,9 +2282,8 @@ in modules // {
     };
 
     propagatedBuildInputs = [ self.botocore
-                              self.futures_2_2
                               self.jmespath
-                            ];
+                            ] ++ (if isPy3k then [] else [self.futures_2_2]);
     buildInputs = [ self.docutils ];
 
     meta = {
