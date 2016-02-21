@@ -1,0 +1,19 @@
+<section xmlns="http://docbook.org/ns/docbook"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:xi="http://www.w3.org/2001/XInclude"
+        version="5.0"
+        xml:id="sec-boot-problems">
+
+<title>Updating the Wiki</title>
+
+<para>
+  Add a new new-entry.xml file and link it with &lt;xi:include href="new-entry.xml" /&gt;
+</para>
+
+<screen>
+cd doc/wiki
+nix-build
+</screen>
+
+
+</section>

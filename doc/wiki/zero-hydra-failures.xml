@@ -1,0 +1,106 @@
+<section xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         version="5.0"
+         xml:id="sec-boot-problems">
+
+  <title>Zero Hydra Failures</title>
+
+  <para>Migrated from: https://nixos.org/wiki/Zero_Hydra_Failures on 2016-02-21.
+  </para>
+
+
+  <para>The purpose of this project is to drop the number of failing jobs to zero. Reasons:</para>
+
+  <itemizedlist>
+    <listitem><para>That number is so high that it's not very
+    informative anymore. Reading that an evaluation stepped from 0 to
+    100 failing packages is much more informative than from 10000 to
+    10200. Even if hydra has the lovely "new failing jobs" feature.
+    </para></listitem>
+    <listitem><para>Dropping to 0 means less builds. If a derivation is
+    broken since a month, every time a dependency changes hydra has to
+    rebuild it, and we know beforehand it will be 100% a failure,
+    leading to a huge waste of processing power and disk space. Either
+    fix it, or mark it as broken.  </para></listitem>
+    <listitem><para>If it's not built by hydra, there's no binary
+    cache. The user thinks it's available, will download the sources,
+    compile it (and that's already a WTF) and will fail. Very bad user
+    experience.</para></listitem>
+  </itemizedlist>
+
+  <para>The ZHF project aims to: either fix the build failures or mark
+  packages as broken, in order to deliver a better user experience and
+  lighten the hydra build machines.</para>
+
+  <sect1>
+    <title>Where are broken packages</title>
+
+    <para>This is the list of build failures of the latest nixpkgs tip:
+    <link xlink:href="http://hydra.nixos.org/jobset/nixpkgs/trunk/latest-eval#tabs-still-fail">http://hydra.nixos.org/jobset/nixpkgs/trunk/latest-eval#tabs-still-fail
+    </link>
+    .</para>
+
+    <para>Ignore the yellow X, which are failures due to time outs or
+    other problems related to hydra building machines. Only consider
+    packages with the red X that are failing since at least one
+    month. Also make sure it's failing for your system (some may be
+    failing on darwin but not on linux).</para>
+
+    <para>Follows data from Dolstra updated at 8 Aug 2014.</para>
+
+    <para>For reference, here is a list jobs that have been broken for at least 6 months: <link xlink:href="http://nixos.org/~eelco/.bla/broken-6-months.txt">http://nixos.org/~eelco/.bla/broken-6-months.txt</link></para>
+
+    <para>Jobs that have never been built successfully (which may include new jobs) <link xlink:href="http://nixos.org/~eelco/.bla/broken-forever.txt">http://nixos.org/~eelco/.bla/broken-forever.txt</link></para>
+  </sect1>
+
+  <sect1>
+    <title>Be fixed or be broken</title>
+    <para>Fixing the build might not be always a pleasure. However sometimes you may have some spare time, and you are willing to fix some build failures of our lovely nixpkgs repository. My suggestion is to:</para>
+
+    <itemizedlist>
+      <listitem><para>Set up a nix-shell for the project</para></listitem>
+      <listitem><para>Build it with "genericBuild"</para></listitem>
+      <listitem><para>Try to find the culprit, if necessary write some patches</para></listitem>
+      <listitem><para>If it builds, commit and push or create a pull request. Don't bother much on whether it runs correctly or not.</para></listitem>
+      <listitem><para>If it's too hard, write down here what's the problem (it's not necessary to be very detailed, but try to write a few words about what you found out)</para></listitem>
+      <listitem><para>After it's been written to this page and nobody ever cared about the build failure, mark it as broken.</para></listitem>
+    </itemizedlist>
+
+    <para>In other words, don't let this project be a stressing task for you. Just try getting a nix-shell for it and build it. It only takes a couple of commands in your shell to do so. Fix it, or mark as broken. Don't spend too much time on it.</para>
+
+    <para>If the build is broken since months, chances are nobody (including the maintainers) is interested in it anymore, and you are not in charge of fixing it at all costs. Do it for fun, for the community and for hydra/nixpkgs health.</para>
+
+    <para>I prefer writing issues down here to avoid cluttering the github bug tracker, where instead we track problems of packages whose people are interested in.</para>
+  </sect1>
+
+  <sect1>
+    <title>Progress</title>
+    <para>ZHF #1</para>
+
+    <para>Started 8 Aug 2014 with 10214 failures and 25982 successes for trunk jobset.</para>
+
+    <para>At 29 Aug 2014 with 6126 failures and 26935 successes.</para>
+
+    <para>At 1 Oct 2014 with only 11 failures for trunk-combined x86_64-linux.</para>
+
+    <para>At 23 Oct 2014 with only 1 failure for trunk-combined x86_64-linux.</para>
+
+    <para>ZHF #2</para>
+
+    <para>Started 1 July 2015 with 2645 failures and 38791 successes for trunk jobset. Will work also on staging (3000+ failures), since now failing build hooks are not ignored anymore.</para>
+
+    <para>20 July, staging merged into master. Nixpkgs has 2211 failures.</para>
+
+    <para>ZHF #3</para>
+    <para>Release 15.09, we got failures down to 8 as of 2015/09/14! Thanks to every contributor.</para>
+
+    <para>Cleaned up the "Hard to fix" list.</para>
+
+  </sect1>
+
+  <sect1>
+    <title>Hard to fix</title>
+    <para>List of packages that you've tried fixing and that are hard to fix but still worth fixing. Try to list the culprits, cite your nick and the date of your trial. If nobody cares, these packages will be marked as broken.</para>
+  </sect1>
+</section>
