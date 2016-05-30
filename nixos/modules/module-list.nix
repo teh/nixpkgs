@@ -421,6 +421,7 @@
   ./services/search/kibana.nix
   ./services/search/solr.nix
   ./services/security/clamav.nix
+  ./services/security/dex.nix
   ./services/security/fail2ban.nix
   ./services/security/fprintd.nix
   ./services/security/fprot.nix
