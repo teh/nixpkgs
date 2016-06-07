@@ -22261,6 +22261,67 @@ in modules // {
     doCheck = false;
   };
 
+  kinto = buildPythonPackage rec {
+    name = "kinto-3.1.1";
+
+    src = pkgs.fetchurl {
+      url = "mirror://pypi/k/kinto/${name}.tar.gz";
+      sha256 = "1575ywnsswp1bc2x3vszrg13zq55za1ki9295yhg77s0nm5s2c3c";
+    };
+
+    # Requires new packages: pytest-sugar, pytest-capturelog but even with those:
+    # AttributeError: 'module' object has no attribute 'test_views_permissions'
+    doCheck = false;
+    buildInputs = with self; [
+      pytest
+      pytestcache
+      pytestcov
+    ];
+
+    propagatedBuildInputs = with self; [
+      colander
+      colorama
+      contextlib2
+      cornice
+      enum34
+      functools32
+      iso8601
+      jsonschema
+#      newrelic
+      PasteDeploy
+      psycopg2
+      pyramid
+      pyramid_multiauth
+      pyramid_tm
+      dateutil
+      raven
+      redis
+      repoze_lru
+      requests2
+      simplejson
+      six
+      sqlalchemy
+      statsd
+      structlog
+      transaction
+      translationstring
+      ujson
+      venusian
+      waitress
+      webob
+      werkzeug
+      zope_deprecation
+      zope_interface
+      zope_sqlalchemy
+    ];
+
+    meta = {
+      homepage = http://kinto.readthedocs.org/;
+      description = "A minimalist JSON storage service with synchronisation and sharing abilities.";
+      license = licenses.mpl;
+    };
+  };
+
   testscenarios = buildPythonPackage rec {
     name = "testscenarios-${version}";
     version = "0.4";
