@@ -6485,6 +6485,28 @@ in modules // {
     };
   };
 
+  fastbdt = buildPythonPackage rec {
+    version = "0fb07ba";
+    name = "fastbdt-${version}";
+    src = pkgs.fastbdt.src;
+
+    # fastbdt doesn't come with a setup.py file and a hard-coded
+    # library path.
+    preBuild = let setup_py = pkgs.writeText "setup.py" ''
+      from setuptools import setup
+      setup(name="${name}", version="${version}", py_modules=["FastBDT"])
+    ''; in ''
+      cd python
+      cp ${setup_py} setup.py
+
+      substituteInPlace FastBDT.py --replace \
+          "os.getcwd() + '" \
+          "'${pkgs.fastbdt}/lib/"
+    '';
+    propagatedBuildInputs = with self; [ pkgs.fastbdt cffi numpy ];
+    meta = pkgs.fastbdt.meta;
+  };
+
   factory_boy = buildPythonPackage rec {
     name = "factory_boy-${version}";
     version = "2.6.1";
