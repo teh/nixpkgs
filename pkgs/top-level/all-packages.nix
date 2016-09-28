@@ -2456,6 +2456,8 @@ in
 
   liboauth = callPackage ../development/libraries/liboauth { };
 
+  fastbdt = callPackage ../development/libraries/fastbdt { };
+
   libsidplayfp = callPackage ../development/libraries/libsidplayfp { };
 
   libsrs2 = callPackage ../development/libraries/libsrs2 { };
