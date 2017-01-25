@@ -22,7 +22,7 @@ let
           -lcap-ng -lcap ${./setcap-wrapper.c} -o $out/bin/${program}.wrapper
     '';
 
-  setcapWrappers = 
+  setcapWrappers =
 
     # This is only useful for Linux platforms and a kernel version of
     # 4.3 or greater
@@ -32,7 +32,6 @@ let
     pkgs.stdenv.mkDerivation {
       name         = "setcap-wrapper";
       unpackPhase  = "true";
-      buildInputs  = [ linuxHeaders libcap libcap_ng ];
       installPhase = ''
         mkdir -p $out/bin
 

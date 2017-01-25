@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let  
+let
      cfg = config.security.permissionsWrappers;
 
      # Produce a shell-code splice intended to be stitched into one of
@@ -26,6 +26,7 @@ assert lib.versionAtLeast (lib.getVersion config.boot.kernelPackages.kernel) "4.
 pkgs.stdenv.mkDerivation {
   name         = "setuid-wrapper";
   unpackPhase  = "true";
+  buildInputs  = with pkgs; [ linuxHeaders libcap.dev libcap.lib libcap_ng ];
   installPhase = ''
     mkdir -p $out/bin
 
