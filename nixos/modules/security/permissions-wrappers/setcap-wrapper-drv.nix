@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let  
+let
      cfg = config.security.permissionsWrappers;
 
      # Produce a shell-code splice intended to be stitched into one of
@@ -14,7 +14,8 @@ let
          fi
 
          gcc -Wall -O2 -DWRAPPER_SETCAP=1 -DSOURCE_PROG=\"$source\" -DWRAPPER_DIR=\"${config.security.permissionsWrapperDir}\" \
-             -lcap-ng -lcap ${./permissions-wrapper.c} -o $out/bin/${program}.wrapper
+             -lcap-ng -lcap ${./permissions-wrapper.c} -o $out/bin/${program}.wrapper -L ${pkgs.libcap.lib}/lib -L ${pkgs.libcap_ng}/lib \
+             -I ${pkgs.libcap.dev}/include -I ${pkgs.libcap_ng}/include -I ${pkgs.linuxHeaders}/include
        '';
 in
 
@@ -26,7 +27,7 @@ assert lib.versionAtLeast (lib.getVersion config.boot.kernelPackages.kernel) "4.
 pkgs.stdenv.mkDerivation {
   name         = "setcap-wrapper";
   unpackPhase  = "true";
-  buildInputs  = [ pkgs.linuxHeaders pkgs.libcap pkgs.libcap_ng ];
+  buildInputs  = [ pkgs.linuxHeaders ];
   installPhase = ''
     mkdir -p $out/bin
 
