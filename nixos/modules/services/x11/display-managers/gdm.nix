@@ -110,7 +110,22 @@ in
 
     # Because sd_login_monitor_new requires /run/systemd/machines
     systemd.services.display-manager.wants = [ "systemd-machined.service" ];
-    systemd.services.display-manager.after = [ "systemd-machined.service" ];
+    systemd.services.display-manager.after = [
+      "rc-local.service"
+      "systemd-machined.service"
+      "systemd-user-sessions.service"
+      "getty@tty1.service"
+    ];
+
+    systemd.services.display-manager.conflicts = [ "getty@tty1.service" ];
+    systemd.services.display-manager.serviceConfig = {
+        # Restart = "always"; - already defined in xserver.nix
+	KillMode = "mixed";
+	IgnoreSIGPIPE = "no";
+	BusName = "org.gnome.DisplayManager";
+	StandardOutput = "syslog";
+	StandardError = "inherit";
+    };
 
     systemd.services.display-manager.path = [ gnome3.gnome_session ];
 
