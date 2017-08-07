@@ -11,12 +11,17 @@ stdenv.mkDerivation rec {
 
   configureFlags = "--with-x --disable-static --enable-shape --enable-sm --enable-startup-notification --enable-xsync --enable-verbose-mode --with-libcanberra --with-xwayland-path=${xwayland}/bin/Xwayland";
 
+  propagatedBuildInputs = [
+    # required for pkgconfig to detect mutter-clutter
+    libXtst
+  ];
+
   buildInputs = with gnome3;
     [ pkgconfig intltool glib gobjectIntrospection gtk gsettings_desktop_schemas upower
       gnome_desktop cairo pango cogl clutter zenity libstartup_notification libcanberra_gtk2
       gnome3.geocode_glib libudev libinput libgudev
       libcanberra_gtk3 zenity libtool makeWrapper xkeyboard_config libxkbfile
-      libxkbcommon libXtst ];
+      libxkbcommon ];
 
   preFixup = ''
     wrapProgram "$out/bin/mutter" \

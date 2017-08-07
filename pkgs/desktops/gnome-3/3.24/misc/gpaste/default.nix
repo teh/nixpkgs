@@ -1,20 +1,18 @@
-{ stdenv, fetchurl, intltool, autoreconfHook, pkgconfig, vala_0_32, glib
+{ stdenv, fetchurl, autoreconfHook, pkgconfig, vala_0_32, glib, gjs, mutter
 , pango, gtk3, gnome3, dbus, clutter, appstream-glib, makeWrapper, systemd, gobjectIntrospection }:
 
 stdenv.mkDerivation rec {
-  version = "3.20.4";
+  version = "3.24.2";
   name = "gpaste-${version}";
 
   src = fetchurl {
     url = "https://github.com/Keruspe/GPaste/archive/v${version}.tar.gz";
-    sha256 = "08h1igdgapz7px12r7mrfcxmz68g9ijg73w69j75spg0yc6f4xax";
+    sha256 = "16142jfpkz8qfs7zp9k3c5l9pnvxbr5yygj8jdpx6by1142s6340";
   };
 
-  buildInputs = [ intltool autoreconfHook pkgconfig vala_0_32 glib
+  buildInputs = [ autoreconfHook pkgconfig vala_0_32 glib gjs mutter
                   gtk3 gnome3.gnome_control_center dbus
                   clutter pango appstream-glib makeWrapper systemd gobjectIntrospection ];
-
-  preConfigure = "intltoolize -f";
 
   configureFlags = [ "--with-controlcenterdir=$(out)/gnome-control-center/keybindings"
                      "--with-dbusservicesdir=$(out)/share/dbus-1/services"
