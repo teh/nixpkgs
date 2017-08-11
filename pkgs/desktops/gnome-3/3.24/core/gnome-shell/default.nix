@@ -28,14 +28,18 @@ in stdenv.mkDerivation rec {
       libgweather # not declared at build time, but typelib is needed at runtime
       gnome3.gnome-clocks # schemas needed
       at_spi2_core upower ibus gnome_desktop telepathy_logger gnome3.gnome_settings_daemon
-      pythonEnv gobjectIntrospection (stdenv.lib.getLib dconf) ];
+      gobjectIntrospection (stdenv.lib.getLib dconf) ];
 
   installFlags = [ "keysdir=$(out)/share/gnome-control-center/keybindings" ];
 
   preBuild = ''
     patchShebangs src/data-to-c.pl
     substituteInPlace data/Makefile --replace " install-keysDATA" ""
+
+    substituteInPlace src/gnome-shell-extension-tool.in --replace "@PYTHON@" "${pythonEnv}/bin/python"
+    substituteInPlace src/gnome-shell-perf-tool.in --replace "@PYTHON@" "${pythonEnv}/bin/python"
   '';
+
 
   preFixup = with gnome3; ''
     wrapProgram "$out/bin/gnome-shell" \
