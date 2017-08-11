@@ -15,9 +15,7 @@ stdenv.mkDerivation rec {
                   gnome3.gsettings_desktop_schemas systemd ];
 
   preFixup = ''
-    wrapProgram "$out/bin/gnome-system-monitor" \
-      --set GDK_PIXBUF_MODULE_FILE "$GDK_PIXBUF_MODULE_FILE" \
-      --prefix XDG_DATA_DIRS : "${gnome3.gnome_themes_standard}/share:$out/share:$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH"
+    gappsWrapperArgs+=(--prefix GIO_EXTRA_MODULES : "${dconf}/lib/gio/modules")
   '';
 
   # fails to build without --enable-static
