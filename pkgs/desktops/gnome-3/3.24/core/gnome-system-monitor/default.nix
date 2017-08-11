@@ -1,5 +1,5 @@
 { stdenv, intltool, fetchurl, pkgconfig, gtkmm3, libxml2
-, bash, gtk3, glib, makeWrapper
+, bash, gtk3, glib, wrapGAppsHook
 , itstool, gnome3, librsvg, gdk_pixbuf, libgtop, systemd }:
 
 stdenv.mkDerivation rec {
@@ -10,12 +10,14 @@ stdenv.mkDerivation rec {
   propagatedUserEnvPkgs = [ gnome3.gnome_themes_standard ];
 
   buildInputs = [ bash pkgconfig gtk3 glib intltool itstool libxml2
-                  gtkmm3 libgtop makeWrapper
+                  gtkmm3 libgtop wrapGAppsHook
                   gdk_pixbuf gnome3.defaultIconTheme librsvg
                   gnome3.gsettings_desktop_schemas systemd ];
 
   preFixup = ''
-    gappsWrapperArgs+=(--prefix GIO_EXTRA_MODULES : "${dconf}/lib/gio/modules")
+    gappsWrapperArgs+=(
+      --prefix XDG_DATA_DIRS : "${gtk3.out}/share:${gnome3.gnome_themes_standard}/share"
+    )
   '';
 
   # fails to build without --enable-static
