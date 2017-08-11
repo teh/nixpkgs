@@ -1,11 +1,9 @@
 { stdenv, intltool, fetchurl, atk
 , pkgconfig, gtk3, glib, libsoup
-, bash, makeWrapper, itstool, libxml2, python2Packages
+, bash, itstool, libxml2, python2Packages
 , gnome3, librsvg, gdk_pixbuf, file, libnotify, gobjectIntrospection, wrapGAppsHook }:
 
-let
-  pythonEnv = python2Packages.python.withPackages ( ps: with ps; [ pygobject3 ] );
-in stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   inherit (import ./src.nix fetchurl) name src;
 
   doCheck = true;
@@ -15,16 +13,17 @@ in stdenv.mkDerivation rec {
   makeFlags = [ "DESTDIR=/" ];
 
   buildInputs = [ pkgconfig gtk3 glib intltool itstool libxml2
-                  gnome3.gsettings_desktop_schemas makeWrapper file
+                  gnome3.gsettings_desktop_schemas file
                   gdk_pixbuf gnome3.defaultIconTheme librsvg
-                  libnotify gnome3.gnome_shell
+                  libnotify gnome3.gnome_shell python2Packages.pygobject3
                   libsoup gnome3.gnome_settings_daemon gnome3.nautilus
-                  gnome3.gnome_desktop wrapGAppsHook
-                  python2Packages.pygobject3.dev pythonEnv gobjectIntrospection ];
+                  gnome3.gnome_desktop wrapGAppsHook gobjectIntrospection
+                ];
 
-  PYTHONPATH = "$out/${pythonEnv.python.sitePackages}";
-
-  wrapPrefixVariables = [ "PYTHONPATH" ];
+  preFixup = ''
+    gappsWrapperArgs+=(
+      --prefix PYTHONPATH : "$out/${python2Packages.python.sitePackages}")
+  '';
 
   patches = [
     ./find_gsettings.patch

@@ -28,7 +28,6 @@ stdenv.mkDerivation rec {
   configureFlags = [ "--with-nautilusdir=$(out)/lib/nautilus/extensions-3.0" ];
 
   GI_TYPELIB_PATH = "$out/lib/girepository-1.0";
-
   wrapPrefixVariables = [ "PYTHONPATH" ];
 
   meta = with stdenv.lib; {
