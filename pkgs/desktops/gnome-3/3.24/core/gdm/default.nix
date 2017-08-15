@@ -24,12 +24,9 @@ stdenv.mkDerivation rec {
   enableParallelBuilding = true;
 
   # Disable Access Control because our X does not support FamilyServerInterpreted yet
-  patches = [ ./xserver_path.patch
-              ./sessions_dir.patch
+  patches = [ ./sessions_dir.patch
               ./gdm-x-session_extra_args.patch
               ./gdm-session-worker_xserver-path.patch
-             # ./disable_x_access_control.patch ./no-dbus-launch.patch
-             # ./libsystemd.patch
              ];
 
   installFlags = [ "sysconfdir=$(out)/etc" "dbusconfdir=$(out)/etc/dbus-1/system.d" ];
