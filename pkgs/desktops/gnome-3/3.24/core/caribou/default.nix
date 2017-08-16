@@ -12,6 +12,12 @@ stdenv.mkDerivation rec {
     sha256 = "0mfychh1q3dx0b96pjz9a9y112bm9yqyim40yykzxx1hppsdjhww";
   };
 
+  # autoconf temporary: we're getting a version mismatch
+  # see https://github.com/NixOS/nixpkgs/pull/28232
+  preConfigure = ''
+    autoreconf
+  '';
+
   buildInputs = with gnome3;
     [ glib pkgconfig gtk clutter at_spi2_core dbus pythonPackages.python automake
       pythonPackages.pygobject3 libxml2 libXtst gtk2 intltool libxslt autoconf ];
