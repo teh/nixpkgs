@@ -1,4 +1,4 @@
-{ fetchurl, stdenv, pkgconfig, gnome3, python
+{ fetchurl, stdenv, pkgconfig, gnome3, python, dconf
 , intltool, libsoup, libxml2, libsecret, icu, sqlite
 , p11_kit, db, nspr, nss, libical, gperf, makeWrapper, valaSupport ? true,
 vala_0_32, cmake, kerberos, openldap, webkitgtk, libaccounts-glib }:

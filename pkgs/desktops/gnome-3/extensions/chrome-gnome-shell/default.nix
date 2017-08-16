@@ -22,8 +22,8 @@ name="chrome-gnome-shell";
     rm $out/etc/opt/chrome/policies/managed/chrome-gnome-shell.json
     rm $out/etc/chromium/policies/managed/chrome-gnome-shell.json
     wrapProgram $out/usr/bin/chrome-gnome-shell \
-      --prefix PATH : '"${dbus}/bin/dbus:$PATH"' \
-      --prefix PATH : '"${gnome3.gnome_shell}:$PATH"' \
+      --prefix PATH : '"${dbus}/bin"' \
+      --prefix PATH : '"${gnome3.gnome_shell}/bin"' \
       --prefix PYTHONPATH : "$PYTHONPATH"
 
   '';
