@@ -25,6 +25,8 @@ stdenv.mkDerivation rec {
       --prefix PYTHONPATH : "$out/${python2Packages.python.sitePackages}")
   '';
 
+  wrapPrefixVariables = [ "PYTHONPATH" ];
+
   patches = [
     ./find_gsettings.patch
     ./0001-Search-for-themes-and-icons-in-system-data-dirs.patch
