@@ -120,11 +120,11 @@ in
     systemd.services.display-manager.conflicts = [ "getty@tty1.service" ];
     systemd.services.display-manager.serviceConfig = {
         # Restart = "always"; - already defined in xserver.nix
-	KillMode = "mixed";
-	IgnoreSIGPIPE = "no";
-	BusName = "org.gnome.DisplayManager";
-	StandardOutput = "syslog";
-	StandardError = "inherit";
+        KillMode = "mixed";
+        IgnoreSIGPIPE = "no";
+        BusName = "org.gnome.DisplayManager";
+        StandardOutput = "syslog";
+        StandardError = "inherit";
     };
 
     systemd.services.display-manager.path = [ gnome3.gnome_session ];
