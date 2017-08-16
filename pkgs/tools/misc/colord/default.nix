@@ -21,6 +21,12 @@ stdenv.mkDerivation rec {
     "--disable-bash-completion"
   ];
 
+  # autoconf temporary: we're getting a version mismatch
+  # see https://github.com/NixOS/nixpkgs/pull/28232
+  preConfigure = ''
+    autoreconf
+  '';
+
   # don't touch /var at install time, colord creates what it needs at runtime
   postPatch = ''
     sed -e "s|if test -w .*;|if false;|" -i src/Makefile.{am,in}

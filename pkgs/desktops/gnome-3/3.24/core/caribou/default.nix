@@ -13,6 +13,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [ pkgconfig autoreconfHook ];
+
   buildInputs = with gnome3;
     [ glib gtk clutter at_spi2_core dbus pythonPackages.python
       pythonPackages.pygobject3 libxml2 libXtst gtk2 intltool libxslt ];
