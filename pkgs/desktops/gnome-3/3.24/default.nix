@@ -255,10 +255,7 @@ let
 
   accerciser = callPackage ./apps/accerciser { };
 
-  bijiben = callPackage ./apps/bijiben {
-    # https://bugzilla.gnome.org/show_bug.cgi?id=728293
-    webkitgtk = pkgs.webkitgtk24x-gtk3;
-  };
+  bijiben = callPackage ./apps/bijiben { };
 
   cheese = callPackage ./apps/cheese { };
 
