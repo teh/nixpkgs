@@ -8,8 +8,8 @@ stdenv.mkDerivation rec {
 
   buildInputs = with gnome3;
     [ pkgconfig glib python intltool libsoup libxml2 gtk gnome_online_accounts
-      gcr p11_kit libgweather libgdata gperf makeWrapper icu sqlite
-      gsettings_desktop_schemas cmake kerberos openldap webkitgtk
+      (stdenv.lib.getLib dconf) gcr p11_kit libgweather libgdata gperf makeWrapper
+      icu sqlite gsettings_desktop_schemas cmake kerberos openldap webkitgtk
       libaccounts-glib ]
     ++ stdenv.lib.optional valaSupport vala_0_32;
 
