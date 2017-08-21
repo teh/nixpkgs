@@ -1,5 +1,5 @@
 { stdenv, intltool, fetchurl, atk
-, pkgconfig, gtk3, glib, libsoup
+, pkgconfig, gtk3, glib, libsoup, python2
 , bash, itstool, libxml2, python2Packages
 , gnome3, librsvg, gdk_pixbuf, file, libnotify, gobjectIntrospection, wrapGAppsHook }:
 
@@ -13,17 +13,12 @@ stdenv.mkDerivation rec {
   makeFlags = [ "DESTDIR=/" ];
 
   buildInputs = [ pkgconfig gtk3 glib intltool itstool libxml2
-                  gnome3.gsettings_desktop_schemas file
+                  gnome3.gsettings_desktop_schemas file python2
                   gdk_pixbuf gnome3.defaultIconTheme librsvg
                   libnotify gnome3.gnome_shell python2Packages.pygobject3
                   libsoup gnome3.gnome_settings_daemon gnome3.nautilus
                   gnome3.gnome_desktop wrapGAppsHook gobjectIntrospection
                 ];
-
-  preFixup = ''
-    gappsWrapperArgs+=(
-      --prefix PYTHONPATH : "$out/${python2Packages.python.sitePackages}:$PYTHONPATH")
-  '';
 
   patches = [
     ./find_gsettings.patch
