@@ -22,10 +22,8 @@ stdenv.mkDerivation rec {
 
   preFixup = ''
     gappsWrapperArgs+=(
-      --prefix PYTHONPATH : "$out/${python2Packages.python.sitePackages}")
+      --prefix PYTHONPATH : "$out/${python2Packages.python.sitePackages}:$PYTHONPATH")
   '';
-
-  wrapPrefixVariables = [ "PYTHONPATH" ];
 
   patches = [
     ./find_gsettings.patch
