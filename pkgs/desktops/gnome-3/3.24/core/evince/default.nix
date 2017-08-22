@@ -10,13 +10,6 @@
 stdenv.mkDerivation rec {
   inherit (import ./src.nix fetchurl) name src;
 
-  patches = [
-    (fetchpatch {
-      name = "CVE-2017-1000083"; # https://bugzilla.gnome.org/show_bug.cgi?id=784630
-      url = "https://git.gnome.org/browse/evince/patch/?id=fa072dbbfd96";
-      sha256 = "12xg00jvbsh54dr2dyq2ha5a05x2bpzd1lh2k3sppq3h7a02lsjy";
-    })
-  ];
   # missing help for now; fixing the autogen phase seemed too difficult
   postPatch = "sed '/@YELP_HELP_RULES@/d' -i help/Makefile.am";
 
