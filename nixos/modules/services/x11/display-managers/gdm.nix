@@ -103,7 +103,7 @@ in
             (filter (arg: arg != "-terminate") cfg.xserverArgs);
           GDM_SESSIONS_DIR = "${cfg.session.desktops}";
           # Find the mouse
-          XCURSOR_PATH = "~/.icons:${config.system.path}/share/icons";
+          XCURSOR_PATH = "~/.icons:${gnome3.adwaita-icon-theme}/share/icons";
         };
         execCmd = "exec ${gdm}/bin/gdm";
       };
