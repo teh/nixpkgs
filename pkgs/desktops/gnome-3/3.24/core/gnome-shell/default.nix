@@ -50,6 +50,9 @@ in stdenv.mkDerivation rec {
       --prefix XDG_DATA_DIRS : "${gnome_themes_standard}/share:$out/share:$XDG_ICON_DIRS" \
       --suffix XDG_DATA_DIRS : "$GSETTINGS_SCHEMAS_PATH"
 
+    wrapProgram "$out/bin/gnome-shell-extension-prefs" \
+      --prefix XDG_DATA_DIRS : "$out/share:$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH"
+
     wrapProgram "$out/libexec/gnome-shell-calendar-server" \
       --prefix GIO_EXTRA_MODULES : "${stdenv.lib.getLib dconf}/lib/gio/modules" \
       --prefix XDG_DATA_DIRS : "${evolution_data_server}/share:$out/share:$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH"
