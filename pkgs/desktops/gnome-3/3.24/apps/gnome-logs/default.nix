@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     pkgconfig gtk3 wrapGAppsHook intltool itstool libxml2
-    systemd gnome3.defaultIconTheme
+    systemd gnome3.gsettings_desktop_schemas gnome3.defaultIconTheme
   ];
 
   meta = with stdenv.lib; {
