@@ -9032,6 +9032,8 @@ in {
 
   geopandas = callPackage ../development/python-modules/geopandas { };
 
+  mlxtend = callPackage ../development/python-modules/mlxtend { };
+
   gevent-websocket = buildPythonPackage rec {
     name = "gevent-websocket-0.9.3";
 
