@@ -2819,7 +2819,7 @@ with pkgs;
   inadyn = callPackage ../tools/networking/inadyn { };
 
   inboxer = callPackage ../applications/networking/mailreaders/inboxer { };
-  
+
   inetutils = callPackage ../tools/networking/inetutils { };
 
   inform7 = callPackage ../development/compilers/inform7 { };
@@ -8006,6 +8006,11 @@ with pkgs;
 
   mypy = callPackage ../development/tools/mypy {
     inherit (python3Packages) fetchPypi buildPythonApplication lxml typed-ast;
+  };
+
+  pytype = callPackage ../development/tools/pytype {
+    inherit (python2Packages) buildPythonApplication pyyaml;
+    inherit fetchFromGitHub;
   };
 
   ### DEVELOPMENT / LIBRARIES
