@@ -795,6 +795,9 @@ with pkgs;
   };
 
   axoloti = callPackage ../applications/audio/axoloti { };
+
+  tomu-u2f = callPackage ../applications/tomu { };
+
   dfu-util-axoloti = callPackage ../applications/audio/axoloti/dfu-util.nix { };
   libusb1-axoloti = callPackage ../applications/audio/axoloti/libusb1.nix {
     inherit (darwin) libobjc;
