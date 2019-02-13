@@ -1590,6 +1590,8 @@ in {
 
   libtmux = callPackage ../development/python-modules/libtmux { };
 
+  bluepy = callPackage ../development/python-modules/bluepy { };
+
   libusb1 = callPackage ../development/python-modules/libusb1 { inherit (pkgs) libusb1; };
 
   linuxfd = callPackage ../development/python-modules/linuxfd { };
