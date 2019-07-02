@@ -2747,6 +2747,8 @@ in {
     cudaSupport = false;
   };
 
+  skorch = callPackage ../development/python-modules/skorch {};
+
   python2-pythondialog = callPackage ../development/python-modules/python2-pythondialog { };
 
   pyRFC3339 = callPackage ../development/python-modules/pyrfc3339 { };
