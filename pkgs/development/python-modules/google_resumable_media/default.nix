@@ -6,6 +6,9 @@
 , setuptools
 , pytest
 , mock
+, lib
+, isPy3k
+, python
 }:
 
 buildPythonPackage rec {
@@ -18,7 +21,12 @@ buildPythonPackage rec {
   };
 
   checkInputs = [ pytest mock ];
-  propagatedBuildInputs = [ requests setuptools six ];
+  propagatedBuildInputs = [ requests six ];
+
+  preBuild = ''
+    substituteInPlace setup.py \
+      --replace "namespace_packages=['google']," ""
+  '';
 
   checkPhase = ''
     py.test tests/unit

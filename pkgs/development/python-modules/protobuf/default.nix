@@ -44,8 +44,12 @@ buildPythonPackage {
   preBuild = ''
     # Workaround for https://github.com/google/protobuf/issues/2895
     ${python.interpreter} setup.py build
+    substituteInPlace setup.py \
+      --replace "namespace_packages=['google']," ""
+
   '' + optionalString (versionAtLeast protobuf.version "2.6.0") ''
     ${python.interpreter} setup.py build_ext --cpp_implementation
+
   '';
 
   installFlags = optional (versionAtLeast protobuf.version "2.6.0")
@@ -56,6 +60,7 @@ buildPythonPackage {
   # install, please do replace this.
   postInstall = optionalString (versionAtLeast protobuf.version "2.6.0") ''
     cp -v $(find build -name "_message*") $out/${python.sitePackages}/google/protobuf/pyext
+    rm $out/${python.sitePackages}/google/__init__.py
   '';
 
   meta = {

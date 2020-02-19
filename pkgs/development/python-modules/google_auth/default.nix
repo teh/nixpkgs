@@ -1,21 +1,27 @@
 { stdenv, buildPythonPackage, fetchpatch, fetchPypi
-, pytest, mock, oauth2client, flask, requests, setuptools, urllib3, pytest-localserver, six, pyasn1-modules, cachetools, rsa, freezegun }:
+, pytest, mock, oauth2client, flask, requests, setuptools,
+urllib3, pytest-localserver, six, pyasn1-modules, cachetools, rsa,
+responses, freezegun, grpcio, python }:
 
 buildPythonPackage rec {
   pname = "google-auth";
-  version = "1.10.0";
+  version = "1.11.2";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "1xs8ch6bz57vs6j0p8061c7wj9ahkvrfpf1y9v7r009979507ckv";
+    sha256 = "1mh7i4ybillnd2m8bm6b1mfwnkp25jdrkcypd3q00vjxyci2xqhy";
   };
 
-  checkInputs = [ pytest mock oauth2client flask requests urllib3 pytest-localserver freezegun ];
-  propagatedBuildInputs = [ six pyasn1-modules cachetools rsa setuptools ];
-
-  checkPhase = ''
-    py.test
+ preBuild = ''
+    substituteInPlace setup.py \
+      --replace 'namespace_packages=("google",),' ""
   '';
+  postInstall = ''
+    rm $out/${python.sitePackages}/google/__init__.py
+  '';
+
+  checkInputs = [ pytest mock oauth2client flask requests urllib3 pytest-localserver responses freezegun ];
+  propagatedBuildInputs = [ six pyasn1-modules cachetools rsa setuptools grpcio ];
 
   meta = with stdenv.lib; {
     description = "This library simplifies using Google’s various server-to-server authentication mechanisms to access Google APIs.";

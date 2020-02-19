@@ -21,6 +21,14 @@ buildPythonPackage rec {
     sed -i '/ez_setup/d' setup.py
   '';
 
+ preBuild = ''
+    substituteInPlace setup.py \
+      --replace 'namespace_packages=["google"],' ""
+  '';
+  postInstall = ''
+    rm $out/${python.sitePackages}/google/__init__.py
+  '';
+
   propagatedBuildInputs = [ pytz gflags dateutil mox ];
 
   checkPhase = ''

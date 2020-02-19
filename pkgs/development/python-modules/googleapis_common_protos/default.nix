@@ -1,5 +1,5 @@
 { stdenv, buildPythonPackage, fetchPypi
-, protobuf, pytest, setuptools }:
+, protobuf, pytest, setuptools, python }:
 
 buildPythonPackage rec {
   pname = "googleapis-common-protos";
@@ -12,6 +12,14 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [ protobuf setuptools ];
   checkInputs = [ pytest ];
+
+ preBuild = ''
+    substituteInPlace setup.py \
+      --replace "namespace_packages=['google', 'google.logging', ]," ""
+  '';
+  postInstall = ''
+    rm $out/${python.sitePackages}/google/__init__.py
+  '';
 
   doCheck = false;  # there are no tests
 

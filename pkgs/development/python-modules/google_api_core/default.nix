@@ -1,5 +1,5 @@
-{ lib, buildPythonPackage, fetchPypi, pythonOlder, isPy27
-, google_auth, protobuf, googleapis_common_protos, requests, setuptools, grpcio, mock }:
+{ lib, buildPythonPackage, fetchPypi, pythonOlder, isPy27, isPy3k, python,
+ google_auth, protobuf, googleapis_common_protos, requests, setuptools, grpcio, futures, mock }:
 
 buildPythonPackage rec {
   pname = "google-api-core";
@@ -15,6 +15,15 @@ buildPythonPackage rec {
     googleapis_common_protos protobuf
     google_auth requests setuptools grpcio
   ];
+
+ preBuild = ''
+    substituteInPlace setup.py \
+      --replace "namespace_packages=namespaces," ""
+  '';
+
+  postInstall = ''
+    rm $out/${python.sitePackages}/google/__init__.py
+  '';
 
   # requires nox
   doCheck = false;
