@@ -112,6 +112,11 @@ rec {
     }
   ) platformVersions;
 
+  cmdline-tools = deployAndroidPackage {
+    inherit os;
+    package = packages.cmdline-tools."1.0";
+  };
+
   system-images = lib.flatten (map (apiVersion:
     map (type:
       map (abiVersion:
@@ -200,6 +205,7 @@ rec {
       # Symlink all requested plugins
 
       ${linkPlugin { name = "platform-tools"; plugin = platform-tools; }}
+      ${linkPlugin { name = "cmdline-tools"; plugin = cmdline-tools; }}
       ${linkPlugins { name = "build-tools"; plugins = build-tools; }}
       ${linkPlugin { name = "emulator"; plugin = emulator; check = includeEmulator; }}
       ${linkPlugin { name = "docs"; plugin = docs; check = includeDocs; }}
@@ -244,14 +250,15 @@ rec {
           ln -s $i $out/bin
       done
 
-      find $PWD/tools/bin -not -path '*/\.*' -type f -executable -mindepth 1 -maxdepth 1 | while read i
+      for i in ${platform-tools}/bin/*
       do
           ln -s $i $out/bin
       done
 
-      for i in ${platform-tools}/bin/*
+      for i in ${cmdline-tools}/libexec/android-sdk/cmdline-tools/1.0/bin/*
       do
-          ln -s $i $out/bin
+	  # TODO - I'm overwriting "lint" with -f probably wrong
+          ln -sf $i $out/bin
       done
     '';
   };
